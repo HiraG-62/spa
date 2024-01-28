@@ -1,17 +1,13 @@
-// The Vue build version to load with the `import` command
-// (runtime-only or standalone) has been set in webpack.base.conf with an alias.
-import Vue from 'vue'
-import App from './App'
-import router from './router'
-import './stylesheets/reset.css'
-import './stylesheets/style.css'
+import { createApp } from 'vue'
+import App from './App.vue'
+import LoadScript from 'vue-plugin-load-script'
+import { QuillEditor } from '@vueup/vue-quill'
+import '@vueup/vue-quill/dist/vue-quill.snow.css'
+import '@/stylesheets/reset.css'
+import '@/stylesheets/style.css'
 
-Vue.config.productionTip = false
+const app = createApp(App)
+app.use(LoadScript)
+app.component('QuillEditor', QuillEditor)
 
-/* eslint-disable no-new */
-new Vue({
-  el: '#app',
-  router,
-  components: { App },
-  template: '<App/>'
-})
+app.mount('#app')
