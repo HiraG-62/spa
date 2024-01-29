@@ -128,15 +128,11 @@ a {
   background-color: orange;
 }
 
-.sidebar_icon:has(.check_sidebar:checked) {
+.sidebar_icon.active {
   background-color: #eee;
   margin-right: 0;
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
-}
-
-.sidebar_icon .check_sidebar {
-  display: none;
 }
 
 .main_threads_bar img {

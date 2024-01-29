@@ -1,41 +1,36 @@
 <template>
     <div class="sidebar">
         <div class="main_threads_bar">
-            <label for="check_home">
+            <li @click="select(1)" v-bind:class="{'active': mainTab == 1}">
                 <div id="home" class="sidebar_icon">
                     <img src="@/assets/home.svg" class="icon">
                     <a href="/"></a>
-                    <input type="checkbox" name="" id="check_home" class="check_sidebar">
                 </div>
-            </label>
-            <label for="check_mypage">
+            </li>
+            <li @click="select(2)" v-bind:class="{'active': mainTab == 2}">
                 <div id="mypage" class="sidebar_icon">
                     <img src="@/assets/mypage.svg" class="icon">
                     <a href="/mypage"></a>
-                    <input type="checkbox" name="" id="check_mypage" class="check_sidebar">
                 </div>
-            </label>
-            <label for="check_lab">
+            </li>
+            <li @click="select(3)" v-bind:class="{'active': mainTab == 3}">
                 <div id="lab" class="sidebar_icon">
                     <img src="@/assets/lab.svg" class="icon">
                     <a href="/lab"></a>
-                    <input type="checkbox" name="" id="check_lab" class="check_sidebar">
                 </div>
-            </label>
-            <label for="check_DM">
+            </li>
+            <li @click="select(4)" v-bind:class="{'active': mainTab == 4}">
                 <div id="lab" class="sidebar_icon">
                     <img src="@/assets/dm.svg" class="icon">
                     <a href="/dm"></a>
-                    <input type="checkbox" name="" id="check_DM" class="check_sidebar">
                 </div>
-            </label>
-            <label for="check_manage">
+            </li>
+            <li @click="select(5)" v-bind:class="{'active': mainTab == 5}">
                 <div id="manage" class="sidebar_icon">
                     <img src="@/assets/manage.svg" class="icon">
                     <a href="/manage"></a>
-                    <input type="checkbox" name="" id="check_manage" class="check_sidebar">
                 </div>
-            </label>
+            </li>
         </div>
         <div class="sub_threads_bar">
             <div class="sub_threads_header">
@@ -44,7 +39,7 @@
                 </p>
             </div>
             <template v-for="(s, key, index) of subThreads" :key="key">
-                <label v-bind:for="'check' + index">
+                <label v-bind:for="'check_' + index">
                     <div v-bind:id="'sub_thread_' + index">
                         <div class="sub_thread">
                             <p>
@@ -122,6 +117,12 @@ export default {
     name: 'index',
     data() {
         return {
+            title: 'title',
+            subThreads: [
+                {name: 'a', test: 'test'},
+                {name: 'b', test: 'test'},
+                {name: 'c', test: 'test'},
+            ],
             options: {
                 modules: {
                     toolbar: toolbarOptions
@@ -132,6 +133,10 @@ export default {
         };
     },
     methods: {
+        select(num) {
+            this.mainTab = num;
+        },
+
         async clickSubmit() {
             let content = document.querySelectorAll('div.ql-editor > p');
             for (let c of content) {
