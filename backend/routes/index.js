@@ -9,6 +9,7 @@ router.get('/', function (req, res, next) {
   res.send({
     message: 'test'
   })
+  console.log(req)
 
   if (isAuth) {
     const userId = req.user.id;

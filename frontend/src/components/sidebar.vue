@@ -1,7 +1,7 @@
 <template>
     <div class="sidebar">
         <div class="main_threads_bar">
-            <div @click="select(1)" v-bind:class="{ 'active': mainTab == 1 }" id="home" class="sidebar_icon">
+            <div @click="select(1), get()" v-bind:class="{ 'active': mainTab == 1 }" id="home" class="sidebar_icon">
                 <img src="@/assets/home.svg" class="icon">
                 <router-link to="/"></router-link>
             </div>
@@ -46,6 +46,8 @@
 </template>
 
 <script>
+import Methods from '@/api/methods'
+
 export default {
     name: 'sidebar',
     data() {
@@ -61,7 +63,11 @@ export default {
     },
     methods: {
         select(num) {
-            this.mainTab = num;
+            this.mainTab = num
+        },
+        async get() {
+            const res = await Methods.sendReq()
+            console.log(res.data)
         }
     }
 }
