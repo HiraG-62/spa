@@ -16,6 +16,8 @@ app.use(cors())
 require('./config/passport')(app)
 app.use(flash())
 
+app.set('view engine', 'vue')
+
 app.use("/", require("./routes"))
 
 app.use(function (req, res, next) {

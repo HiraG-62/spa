@@ -7,9 +7,8 @@ const knex = require('../db/knex')
 router.get('/', function (req, res, next) {
   const isAuth = req.isAuthenticated();
   res.send({
-    message: 'test'
+    isAuth
   })
-  console.log(req)
 
   if (isAuth) {
     const userId = req.user.id;

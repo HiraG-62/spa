@@ -1,28 +1,32 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import index from '@/routes/index'
+import body from '@/routes/body'
 
 const routes = [
     {
+        path: '/signin',
+        component: body,
+        meta: { requiresAuth: false }
+    },
+    {
+        path: '/signup',
+        component: body,
+        meta: { requiresAuth: false }
+    },
+    {
         path: '/',
-        component: index
-    },
-    {
-        path: '/mypage',
-        component: index
-    },
-    {
-        path: '/lab',
-        component: index
-    },
-    {
-        path: '/dm',
-        component: index
-    },
+        component: body,
+        meta: { requiresAuth: true }
+    }
 ]
 
 const Router = createRouter({
-        history: createWebHistory(),
-        routes,
-    })
+    history: createWebHistory(),
+    routes,
+})
+
+Router.addRoute({ path: '/mypage', component: body })
+Router.addRoute({ path: '/lab', component: body })
+Router.addRoute({ path: '/dm', component: body })
+Router.addRoute({ path: '/manage', component: body })
 
 export default Router
