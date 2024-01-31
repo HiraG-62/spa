@@ -7,7 +7,7 @@ import '@vueup/vue-quill/dist/vue-quill.snow.css'
 
 import '@/stylesheets/reset.css'
 import '@/stylesheets/style.css'
-
+import '@/stylesheets/parts.css'
 
 
 const app = createApp(App)
