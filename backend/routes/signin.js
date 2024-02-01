@@ -4,7 +4,7 @@ const passport = require('passport')
 
 router.get('/', function (req, res, next) {
     const isAuth = req.isAuthenticated();
-    console.log(req)
+    req.send(isAuth)
 });
 
 router.post('/', passport.authenticate('local', {
@@ -12,18 +12,9 @@ router.post('/', passport.authenticate('local', {
         failureFlash: true
     }),
     (req, res) => {
-        res.send({
-            text: 'test'
-        })
+        res.send('success')
     }
 );
-
-// router.post('/', function(req, res, next) {
-//     res.send({
-//         email: req.body.email,
-//         pass: req.body.password
-//     })
-// })
 
 
 module.exports = router;

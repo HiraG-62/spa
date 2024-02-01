@@ -33,7 +33,9 @@ export default {
                 password: this.password
             }
             let res = await Methods.sendPost('/signin', form)
-            console.log(res.data)
+            if(res.data == 'success') {
+                this.$router.push('/')
+            }
         }
     }
 }
