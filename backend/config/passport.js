@@ -20,10 +20,7 @@ module.exports = function (app) {
         }
     });
 
-    passport.use(new LocalStrategy({
-        usernameField: 'email',
-        passwordField: 'password',
-    }, function (email, password, done) {
+    passport.use(new LocalStrategy(function (email, password, done) {
         knex('users')
             .where({
                 email: email,

@@ -33,7 +33,7 @@ export default {
                 password: this.password
             }
             let res = await Methods.sendPost('/signin', form)
-            console.log(res)
+            console.log(res.data)
         }
     }
 }
