@@ -21,13 +21,6 @@ export default {
         bodyComponent
     },
     mounted() {
-        window.onload = async function () {
-            const res = await Methods.sendReq()
-            if (!res.data.isAuth) {
-                location.href = '/signin'
-                console.log('test')
-            }
-        }
     }
 }
 

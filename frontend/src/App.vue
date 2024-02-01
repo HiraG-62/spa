@@ -15,16 +15,16 @@ export default {
     // headerComponent,
   },
   mounted() {
-    const path = this.$route.path
-    window.onload = async function () {
-      if (path == '/signin') {
-        const res = await Methods.sendReq()
-        if (!res.data.isAuth) {
-          location.href = '/signin'
-          console.log('test')
-        }
-      }
-    }
+    // const path = this.$route.path
+    // window.onload = async function () {
+    //   if (path == '/signin' || path == '/signup') {
+    //     const res = await Methods.sendReq()
+    //     if (!res.data.isAuth) {
+    //       location.href = '/signin'
+    //       console.log('test')
+    //     }
+    //   }
+    // }
   }
 }
 

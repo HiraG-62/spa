@@ -16,8 +16,6 @@ app.use(cors())
 require('./config/passport')(app)
 app.use(flash())
 
-app.set('view engine', 'vue')
-
 app.use("/", require("./routes"))
 
 app.use(function (req, res, next) {
@@ -33,7 +31,7 @@ app.use(function (err, req, res, next) {
 
     // render the error page
     res.status(err.status || 500);
-    res.render('error');
+    console.log(err);
 });
 
 app.listen(process.env.PORT || 3000)
