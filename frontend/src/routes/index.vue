@@ -1,7 +1,7 @@
 <template>
-    <sidebarComponent></sidebarComponent>
+    <sidebarComponent @subTitle="changeSubTitle"></sidebarComponent>
     <div class="main_wrapper">
-        <headerComponent></headerComponent>
+        <headerComponent :title="subTitle"></headerComponent>
         <bodyComponent></bodyComponent>
     </div>
 </template>
@@ -15,12 +15,26 @@ import bodyComponent from '@/components/body.vue'
 
 export default {
     name: 'index',
+    data() {
+        return {
+            subTitle: ''
+        }
+    },
     components: {
         sidebarComponent,
         headerComponent,
         bodyComponent
     },
-    mounted() {
+    methods: {
+        changeSubTitle(val) {
+            this.subTitle = val;
+        }
+    },
+    async mounted() {
+        const res = await Methods.sendReq('/')
+        if (!res.data.isAuth) {
+            this.$router.push('/signin')
+        }
     }
 }
 

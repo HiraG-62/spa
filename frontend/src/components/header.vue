@@ -1,6 +1,7 @@
 <template>
     <div class="main_header">
         <div id="header_content">
+            {{ title }}
         </div>
         <div class="search_area">
             <label for="check_search">
@@ -15,3 +16,13 @@
         </div>
     </div>
 </template>
+
+<script>
+
+export default {
+    props: [
+        'title'
+    ]
+}
+
+</script>

@@ -1,8 +1,8 @@
 import Api from './index'
 
 export default {
-  async sendReq() {
-    const res = await Api().get('/')
+  async sendReq(path) {
+    const res = await Api().get(path)
     return res
   },
 

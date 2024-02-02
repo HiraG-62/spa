@@ -15,7 +15,7 @@
                 <input required type="password" name="repassword" v-model="repassword"/>
             </div>
 
-            <input type="submit" value="Sign up" class="submit_button redButton" />
+            <input @click="post()" type="submit" value="サインアップ" class="submit_button redButton" />
             <router-link to="/signin">サインイン</router-link>
         </div>
     </div>
@@ -34,8 +34,8 @@ export default {
     },
     methods: {
         async post() {
-            let res = await Methods.sendPost('/signin',)
-            console.log(res)
+            let res = await Methods.sendPost('/signup',)
+            
         }
     }
 }

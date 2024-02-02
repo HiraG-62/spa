@@ -6,20 +6,26 @@ const knex = require('../db/knex')
 /* GET home page. */
 router.get('/', function (req, res, next) {
   const isAuth = req.isAuthenticated();
-  res.send({
-    isAuth
-  })
 
   if (isAuth) {
     const userId = req.user.id;
-    knex('posts')
+    knex('sub_threads')
       .select('*')
+      .where({ user_id: userId })
       .then(function (results) {
+        res.send({
+          isAuth: isAuth,
+          subThreads: results,
+          userId: userId
+        })
       })
       .catch(function (err) {
         console.error(err);
       })
   } else {
+    res.send({
+      isAuth: isAuth
+    })
   }
 });
 
@@ -40,7 +46,7 @@ router.post('/content', function (req, res, next) {
 
 router.use('/signup', require('./signup'));
 router.use('/signin', require('./signin'));
-// router.use('/logout', require('./logout'));
+router.use('/logout', require('./logout'));
 // router.use('/mypage', require('./mypage'));
 // router.use('/lab', require('./lab'));
 // router.use('/manage', require('./manage'));

@@ -12,8 +12,9 @@ const app = express()
 app.use(bodyParser.json())
 app.use(cookieParser())
 app.use(cors({
-    origin: 'http://localhost:3000', //アクセス許可するオリジン
-    credentials: true //レスポンスヘッダーにAccess-Control-Allow-Credentials追加
+    origin: 'http://localhost:8080', //アクセス許可するオリジン
+    credentials: true, //レスポンスヘッダーにAccess-Control-Allow-Credentials追加
+    optionsSuccessStatus: 200
 }))
 
 require('./config/passport')(app)

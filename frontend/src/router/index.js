@@ -2,22 +2,25 @@ import { createRouter, createWebHistory } from 'vue-router'
 import index from '@/routes/index'
 import signin from '@/routes/signin'
 import signup from '@/routes/signup'
+import logout from '@/routes/logout'
+
 
 const routes = [
     {
         path: '/signin',
         component: signin,
-        meta: { requiresAuth: false }
     },
     {
         path: '/signup',
         component: signup,
-        meta: { requiresAuth: false }
+    },
+    {
+        path: '/logout',
+        component: logout
     },
     {
         path: '/',
         component: index,
-        meta: { requiresAuth: true }
     }
 ]
 
