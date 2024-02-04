@@ -31,13 +31,13 @@ router.get('/', function (req, res, next) {
 
 router.post('/content', function (req, res, next) {
   const isAuth = req.isAuthenticated();
-  const post = req.body.contents;
-  const subThreadIndex = req.body.sub_thread_index
+  const post = req.body.content
   const date = new Date().toLocaleString('sv').replace(/-/g, '/').slice(0, -3);
 
   knex('posts')
     .insert({ 'contents': post, 'date': date })
     .then(function () {
+      res.send('posted')
     })
     .catch(function (err) {
       console.error(err);

@@ -17,7 +17,7 @@
             <div class="form_area">
                 <div class="writing_quill_area">
                     <textarea name="contents" style="display:none" id="contents"></textarea>
-                    <QuillEditor :options="options" id="editor"></QuillEditor>
+                    <QuillEditor :options="options" ref="myEditor"></QuillEditor>
                 </div>
                 <div class="buttons">
                     <div class="toolbar_switch">
@@ -39,6 +39,7 @@
 
 <script>
 import { QuillEditor } from '@vueup/vue-quill';
+import Methods from '@/api/methods';
 
 
 export default {
@@ -59,8 +60,9 @@ export default {
             let content = document.querySelectorAll('div.ql-editor > p');
             for (let c of content) {
                 if (c.innerText.match(/\S/g)) {
-                    submit();
-                    return;
+                    const form = { content: this.$refs.myEditor.getQuill().root.innerHTML }
+                    let res = await Methods.sendPost('/content', form)
+                    return
                 }
             }
         }
@@ -80,10 +82,5 @@ const toolbarOptions = [
 
     [{ 'color': [] }, { 'background': [] }, { 'font': [] }],          // dropdown with defaults from theme
 ];
-
-function submit() {
-    // document.getElementById('contents').value ;
-    document.forms.post.submit();
-}
 </script>
   
