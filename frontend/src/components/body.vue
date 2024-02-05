@@ -4,7 +4,7 @@
             <li class="post">
                 <div class="post_data">
                     <div class="name">
-                        <p>name</p>
+                        {{ threadId }}
                     </div>
                     <div class="date">
                     </div>
@@ -44,6 +44,7 @@ import Methods from '@/api/methods';
 
 export default {
     name: 'body',
+    props: ['threadId'],
     data() {
         return {
             options: {
@@ -60,8 +61,11 @@ export default {
             let content = document.querySelectorAll('div.ql-editor > p');
             for (let c of content) {
                 if (c.innerText.match(/\S/g)) {
-                    const form = { content: this.$refs.myEditor.getQuill().root.innerHTML }
+                    const form = { content: this.$refs.myEditor.getQuill().root.innerHTML, subThreadId: this.threadId }
                     let res = await Methods.sendPost('/content', form)
+                    if(res.data == 'posted') {
+                        this.$refs.myEditor.getQuill().root.innerHTML = ''
+                    }
                     return
                 }
             }

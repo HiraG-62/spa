@@ -34,8 +34,15 @@ export default {
     },
     methods: {
         async post() {
-            let res = await Methods.sendPost('/signup',)
-            
+            let form = {
+                email: this.email,
+                password: this.password,
+                repassword: this.repassword
+            }
+            let res = await Methods.sendPost('/signup', form)
+            if(res.data == 'success') {
+                this.$router.push('/')
+            }
         }
     }
 }

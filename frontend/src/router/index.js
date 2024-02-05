@@ -21,7 +21,23 @@ const routes = [
     {
         path: '/',
         component: index,
-    }
+    },
+    {
+        path: '/mypage/:id',
+        component: index,
+    },
+    {
+        path: '/lab/:id',
+        component: index,
+    },
+    {
+        path: '/dm/:id',
+        component: index,
+    },
+    {
+        path: '/manage',
+        component: index,
+    },
 ]
 
 const Router = createRouter({
@@ -29,9 +45,9 @@ const Router = createRouter({
     routes,
 })
 
-Router.addRoute({ path: '/mypage', component: index })
-Router.addRoute({ path: '/lab', component: index })
-Router.addRoute({ path: '/dm', component: index })
-Router.addRoute({ path: '/manage', component: index })
+// Router.addRoute({ path: '/mypage/:id', component: index })
+// Router.addRoute({ path: '/lab', component: index })
+// Router.addRoute({ path: '/dm', component: index })
+// Router.addRoute({ path: '/manage', component: index })
 
 export default Router

@@ -9,19 +9,35 @@ router.get('/', function (req, res, next) {
 
   if (isAuth) {
     const userId = req.user.id;
-    knex('sub_threads')
-      .select('*')
-      .where({ user_id: userId })
+    knex('posts')
+      .select(knex.raw('*, main_threads.name as main, sub_threads.name as sub'))
+      .joinRaw('join main_threads as, sub_threads')
+      .whereRaw('main_threads.id = main_thread_id and sub_threads.id = sub_thread_id')
       .then(function (results) {
         res.send({
           isAuth: isAuth,
-          subThreads: results,
-          userId: userId
+          postData: results
         })
       })
-      .catch(function (err) {
-        console.error(err);
-      })
+      // .then(function (results) {
+      //   res.send({
+      //     isAuth: isAuth,
+      //     postData: results
+      //   })
+      // })
+    // knex('sub_threads')
+    //   .select('*')
+    //   .where({ user_id: userId })
+    //   .then(function (results) {
+    //     res.send({
+    //       isAuth: isAuth,
+    //       subThreads: results,
+    //       userId: userId
+    //     })
+    //   })
+    //   .catch(function (err) {
+    //     console.error(err);
+    //   })
   } else {
     res.send({
       isAuth: isAuth
@@ -32,10 +48,11 @@ router.get('/', function (req, res, next) {
 router.post('/content', function (req, res, next) {
   const isAuth = req.isAuthenticated();
   const post = req.body.content
+  const subThreadId = req.body.subThreadId
   const date = new Date().toLocaleString('sv').replace(/-/g, '/').slice(0, -3);
 
   knex('posts')
-    .insert({ 'contents': post, 'date': date })
+    .insert({'sub_thread_id': subThreadId, 'contents': post, 'date': date })
     .then(function () {
       res.send('posted')
     })
