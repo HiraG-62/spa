@@ -1,17 +1,21 @@
 <template>
     <div class="main_body">
-        <div id="post_area">
-            <li class="post">
-                <div class="post_data">
-                    <div class="name">
-                        {{ threadId }}
+        <div class="post_area">
+            <template v-for="(post, index) of posts" :key="index" >
+                <!-- <div class="post">
+                    <div class="post_data">
+                        <div class="name">
+                            {{ name }}
+                        </div>
+                        <div class="date">
+                            date
+                        </div>
                     </div>
-                    <div class="date">
+                    <div class="ql-snow post_content">
+                        content
                     </div>
-                </div>
-                <div class="ql-snow post_content">
-                </div>
-            </li>
+                </div> -->
+            </template>
         </div>
         <form action="/content" method="post" name="post">
             <div class="form_area">
@@ -47,6 +51,8 @@ export default {
     props: ['threadId'],
     data() {
         return {
+            name: '名前',
+
             options: {
                 modules: {
                     toolbar: toolbarOptions
@@ -55,6 +61,10 @@ export default {
                 theme: 'snow'
             }
         };
+    },
+    async created() {
+        let res = await Methods.sendReq('/')
+        this.posts = res.data.posts
     },
     methods: {
         async clickSubmit() {

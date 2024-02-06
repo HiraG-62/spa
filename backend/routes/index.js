@@ -9,35 +9,28 @@ router.get('/', function (req, res, next) {
 
   if (isAuth) {
     const userId = req.user.id;
-    knex('posts')
-      .select(knex.raw('*, main_threads.name as main, sub_threads.name as sub'))
-      .joinRaw('join main_threads as, sub_threads')
-      .whereRaw('main_threads.id = main_thread_id and sub_threads.id = sub_thread_id')
-      .then(function (results) {
-        res.send({
-          isAuth: isAuth,
-          postData: results
-        })
+    knex('sub_threads')
+      .select(knex.raw('*, sub_threads.id as sub_id'))
+      .join('posts')
+      .whereRaw(`sub_threads.id = sub_thread_id and user_id = ${userId}`)
+      .then(function (postData) {
+        knex('sub_threads')
+          .select(knex.raw('*, sub_threads.name as sub_name, sub_threads.id as sub_id'))
+          .join('main_threads')
+          .whereRaw(`main_threads.id = main_thread_id and user_id = ${userId}`)
+          .then(function (threadData) {
+            knex('main_threads')
+              .select('*')
+              .then(function (mainThreads) {
+                res.send({
+                  isAuth: isAuth,
+                  mainThreads: mainThreads,
+                  threads: threadData,
+                  posts: postData
+                })
+              })
+          })
       })
-      // .then(function (results) {
-      //   res.send({
-      //     isAuth: isAuth,
-      //     postData: results
-      //   })
-      // })
-    // knex('sub_threads')
-    //   .select('*')
-    //   .where({ user_id: userId })
-    //   .then(function (results) {
-    //     res.send({
-    //       isAuth: isAuth,
-    //       subThreads: results,
-    //       userId: userId
-    //     })
-    //   })
-    //   .catch(function (err) {
-    //     console.error(err);
-    //   })
   } else {
     res.send({
       isAuth: isAuth
@@ -52,7 +45,7 @@ router.post('/content', function (req, res, next) {
   const date = new Date().toLocaleString('sv').replace(/-/g, '/').slice(0, -3);
 
   knex('posts')
-    .insert({'sub_thread_id': subThreadId, 'contents': post, 'date': date })
+    .insert({ 'sub_thread_id': subThreadId, 'contents': post, 'date': date })
     .then(function () {
       res.send('posted')
     })

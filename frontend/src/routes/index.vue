@@ -1,5 +1,5 @@
 <template>
-    <sidebarComponent @subThread="changeSubThread"></sidebarComponent>
+    <sidebarComponent @subThread="changeSubThread" :data="postData"></sidebarComponent>
     <div class="main_wrapper">
         <headerComponent :title="subTitle"></headerComponent>
         <bodyComponent :threadId="subThreadId"></bodyComponent>
@@ -17,6 +17,7 @@ export default {
     name: 'index',
     data() {
         return {
+            postData: '',
             subTitle: '',
             subThreadId: ''
         }
@@ -28,15 +29,16 @@ export default {
     },
     methods: {
         changeSubThread(val) {
-            this.subTitle = val.name;
+            this.subTitle = val.sub_name;
             this.subThreadId = val.id;
         }
     },
     async mounted() {
         const res = await Methods.sendReq('/')
-        console.log(res.data)
+        this.postData = res
         if (!res.data.isAuth) {
             this.$router.push('/signin')
+            return
         }
     }
 }

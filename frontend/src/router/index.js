@@ -20,22 +20,27 @@ const routes = [
     },
     {
         path: '/',
+        name: 'index',
         component: index,
     },
     {
         path: '/mypage/:id',
+        name: 'mypage',
         component: index,
     },
     {
         path: '/lab/:id',
+        name: 'lab',
         component: index,
     },
     {
         path: '/dm/:id',
+        name: 'dm',
         component: index,
     },
     {
         path: '/manage',
+        name: 'manage',
         component: index,
     },
 ]
