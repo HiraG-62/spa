@@ -2,7 +2,7 @@
     <sidebarComponent @subThread="changeSubThread" :data="postData"></sidebarComponent>
     <div class="main_wrapper">
         <headerComponent :title="subTitle"></headerComponent>
-        <bodyComponent :threadId="subThreadId"></bodyComponent>
+        <bodyComponent :threadId="subThreadId" :data="postData"></bodyComponent>
     </div>
 </template>
 
@@ -30,7 +30,7 @@ export default {
     methods: {
         changeSubThread(val) {
             this.subTitle = val.sub_name;
-            this.subThreadId = val.id;
+            this.subThreadId = val.sub_id;
         }
     },
     async mounted() {

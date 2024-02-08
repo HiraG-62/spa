@@ -1,21 +1,23 @@
 <template>
     <div class="main_body">
-        <div class="post_area">
-            <template v-for="(post, index) of posts" :key="index" >
-                <!-- <div class="post">
-                    <div class="post_data">
-                        <div class="name">
-                            {{ name }}
+        <div id="post_area">
+            <div v-for="post of posts" :key="post.id">
+                <div v-if="post.sub_thread_id == threadId">
+                    <li class="post">
+                        <div class="post_data">
+                            <div class="name">
+                                {{ name }}
+                            </div>
+                            <div class="date">
+                                {{ post.date }}
+                            </div>
                         </div>
-                        <div class="date">
-                            date
+                        <div v-html="post.contents" class="ql-snow post_content">
                         </div>
-                    </div>
-                    <div class="ql-snow post_content">
-                        content
-                    </div>
-                </div> -->
-            </template>
+                    </li>
+                </div>
+            </div>
+
         </div>
         <form action="/content" method="post" name="post">
             <div class="form_area">
@@ -62,9 +64,11 @@ export default {
             }
         };
     },
-    async created() {
+    async mounted() {
         let res = await Methods.sendReq('/')
         this.posts = res.data.posts
+        this.threads = res.data.threads
+        console.log(this.posts)
     },
     methods: {
         async clickSubmit() {
@@ -73,7 +77,7 @@ export default {
                 if (c.innerText.match(/\S/g)) {
                     const form = { content: this.$refs.myEditor.getQuill().root.innerHTML, subThreadId: this.threadId }
                     let res = await Methods.sendPost('/content', form)
-                    if(res.data == 'posted') {
+                    if (res.data == 'posted') {
                         this.$refs.myEditor.getQuill().root.innerHTML = ''
                     }
                     return

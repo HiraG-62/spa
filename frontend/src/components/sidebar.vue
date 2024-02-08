@@ -26,14 +26,21 @@
             <div class="sub_threads_header">
                 {{ title }}
             </div>
-            <template v-for="(thread, index) of threads" :key="index">
-                <div v-bind:id="'sub_thread_' + index">
-                    <div @click="subSelect(thread, index, $event)" v-bind:class="{ 'active': subTab == index }" class="sub_thread">
-                        {{ thread.sub_name }}
-                        <router-link :to="{name: mainPath, params: {id: thread.sub_id} }"></router-link>
+            <div class="sub_threads">
+                <template v-for="(thread, index) of threads" :key="index">
+                    <div v-bind:id="'sub_thread_' + index">
+                        <div @click="subSelect(thread, index, $event)" v-bind:class="{ 'active': subTab == index }" class="sub_thread">
+                            {{ thread.sub_name }}
+                            <router-link :to="{name: mainPath, params: {id: thread.sub_id} }"></router-link>
+                        </div>
                     </div>
-                </div>
-            </template>
+                </template>
+            </div>
+            <div class="add_thread">
+                <img src="@/assets/plus.svg" alt="送信" class="plus_button button-icon icon">
+                <span>スレッドを追加</span>
+                <button type="button"></button>
+            </div>
         </div>
     </div>
 </template>
@@ -71,6 +78,7 @@ export default {
         subSelect(thread, num, event) {
             this.subTab = num
             this.$emit('subThread', thread)
+            console.log(thread)
         }
     }
 }
