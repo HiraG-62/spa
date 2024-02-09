@@ -450,10 +450,6 @@ a {
 }
 
 .popup_overlay {
-  display: none;
-}
-
-#popup:checked~.popup_overlay {
   display: block;
   z-index: 99999;
   background-color: #00000070;
@@ -463,6 +459,7 @@ a {
   top: 0;
   left: 0;
 }
+
 
 .popup_window {
   width: 50vw;

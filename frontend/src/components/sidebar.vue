@@ -17,7 +17,7 @@
                 <img src="@/assets/dm.svg" class="icon">
                 <router-link to="/dm/1"></router-link>
             </div>
-            <div @click="mainSelect( 4, $event)" v-bind:class="{ 'active': mainTab == 4 }" id="manage" class="sidebar_icon">
+            <div @click="mainSelect(4, $event)" v-bind:class="{ 'active': mainTab == 4 }" id="manage" class="sidebar_icon">
                 <img src="@/assets/manage.svg" class="icon">
                 <router-link to="/manage"></router-link>
             </div>
@@ -29,17 +29,33 @@
             <div class="sub_threads">
                 <template v-for="(thread, index) of threads" :key="index">
                     <div v-bind:id="'sub_thread_' + index">
-                        <div @click="subSelect(thread, index, $event)" v-bind:class="{ 'active': subTab == index }" class="sub_thread">
+                        <div @click="subSelect(thread, index, $event)" v-bind:class="{ 'active': subTab == index }"
+                            class="sub_thread">
                             {{ thread.sub_name }}
-                            <router-link :to="{name: mainPath, params: {id: thread.sub_id} }"></router-link>
+                            <router-link :to="{ name: mainPath, params: { id: thread.sub_id } }"></router-link>
                         </div>
                     </div>
                 </template>
             </div>
-            <div class="add_thread">
+            <div @click="showPopup" class="add_thread">
                 <img src="@/assets/plus.svg" alt="送信" class="plus_button button-icon icon">
                 <span>スレッドを追加</span>
                 <button type="button"></button>
+            </div>
+            <div v-show="visPop" class="popup_overlay">
+                <div class="popup_window">
+                    <div style="font-size: 24px;">スレッドを追加</div>
+                    <br>
+                    <p style="font-weight: lighter;">メインスレッド：  {{ title }}</p>
+                    <div style="font-weight: lighter;">スレッドタイトル：  <input type="text"></div>
+                    
+                    <label @click="hidePopup" class="popup_close">
+                        <svg width="18" height="18" xmlns="http://www.w3.org/2000/svg">
+                            <line x1="0" y1="0" x2="18" y2="18" stroke="white" stroke-width="3"></line>
+                            <line x1="0" y1="18" x2="18" y2="0" stroke="white" stroke-width="3"></line>
+                        </svg>
+                    </label>
+                </div>
             </div>
         </div>
     </div>
@@ -58,7 +74,8 @@ export default {
             mainTab: 0,
             mainPath: 'index',
             subTab: 0,
-            subThreads: null
+            subThreads: null,
+            visPop: false
         }
     },
     async created() {
@@ -79,6 +96,12 @@ export default {
             this.subTab = num
             this.$emit('subThread', thread)
             console.log(thread)
+        },
+        showPopup() {
+            this.visPop = true
+        },
+        hidePopup() {
+            this.visPop = false
         }
     }
 }
