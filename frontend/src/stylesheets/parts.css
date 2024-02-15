@@ -29,3 +29,17 @@
     background-color: #00aa00;
     cursor: pointer;
 }
+
+.cyanButton {
+    width: fit-content;
+    background-color: rgb(58, 171, 210);
+    color: #fff;
+    box-sizing: border-box;
+    position: relative;
+    padding: 10px 32px;
+    margin: 12px 0 0 auto;
+    border-radius: 10px;
+    text-align: center;
+    border: none;
+
+}

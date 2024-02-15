@@ -1,8 +1,8 @@
 <template>
     <sidebarComponent @subThread="changeSubThread" :data="postData"></sidebarComponent>
     <div class="main_wrapper">
-        <headerComponent :title="subTitle"></headerComponent>
-        <bodyComponent :threadId="subThreadId" :data="postData"></bodyComponent>
+        <headerComponent @searchText="searchWords" :title="subTitle"></headerComponent>
+        <bodyComponent :threadId="subThreadId" :data="postData" :searchWord="word"></bodyComponent>
     </div>
 </template>
 
@@ -19,7 +19,9 @@ export default {
         return {
             postData: '',
             subTitle: '',
-            subThreadId: ''
+            subThreadId: '',
+            word: '',
+            mainThread: ''
         }
     },
     components: {
@@ -29,8 +31,11 @@ export default {
     },
     methods: {
         changeSubThread(val) {
-            this.subTitle = val.sub_name;
-            this.subThreadId = val.sub_id;
+            this.subTitle = val.sub_name
+            this.subThreadId = val.sub_id
+        },
+        searchWords(val) {
+            this.word = val
         }
     },
     async mounted() {

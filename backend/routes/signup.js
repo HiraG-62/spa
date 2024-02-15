@@ -5,15 +5,16 @@ const bcrypt = require('bcrypt');
 const passport = require('passport');
 
 router.get('/', function (req, res, next) {
-    const isAuth = req.isAuthenticated();
+    const isAuth = req.isAuthenticated()
     
 });
 
 router.post('/', function post(req, res, next) {
-    const isAuth = req.isAuthenticated();
-    const email = req.body.email;
-    const password = req.body.password;
-    const repassword = req.body.repassword;
+    const isAuth = req.isAuthenticated()
+    const name = req.body.name
+    const email = req.body.email
+    const password = req.body.password
+    const repassword = req.body.repassword
 
     knex('users')
         .where({ email: email })
@@ -24,7 +25,7 @@ router.post('/', function post(req, res, next) {
             } else if (password === repassword) {
                 const hashedPassword = await bcrypt.hash(password, 10);
                 knex('users')
-                    .insert({ email: email, password: hashedPassword })
+                    .insert({ name: name, email: email, password: hashedPassword })
                     .then(function () {
                         passport.authenticate('local', function (err, user, info) {
                             if (err) { return next(err); }
@@ -34,7 +35,7 @@ router.post('/', function post(req, res, next) {
                                 knex('sub_threads')
                                     .insert({ name: '自分の投稿', main_thread_id: 2, user_id: user.id })
                                     .then()
-                                return res.redirect('/');
+                                res.send('success')
                             });
                         })(req, res, next)
                     })

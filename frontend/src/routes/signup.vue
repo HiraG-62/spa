@@ -3,6 +3,10 @@
         <div class="sign_body">
             <h1>アカウント登録</h1>
             <div class="form_text">
+                <label>氏名</label>
+                <input required type="text" name="name" v-model="name"/>
+            </div>
+            <div class="form_text">
                 <label>メールアドレス</label>
                 <input required type="email" name="email" v-model="email"/>
             </div>
@@ -27,6 +31,7 @@ import Methods from '@/api/methods'
 export default {
     data() {
         return {
+            name: '',
             email: '',
             password: '',
             repassword: ''
@@ -35,6 +40,7 @@ export default {
     methods: {
         async post() {
             let form = {
+                name: this.name,
                 email: this.email,
                 password: this.password,
                 repassword: this.repassword

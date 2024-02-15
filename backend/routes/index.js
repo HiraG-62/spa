@@ -54,6 +54,19 @@ router.post('/content', function (req, res, next) {
     })
 });
 
+router.post('/addsubThread', function(req, res, next) {
+  const userId = req.user.id
+  const subThreadName = req.body.threadName
+  const mainThreadId = req.body.mainThreadId
+
+  knex('sub_threads')
+    .insert({ 'name': subThreadName, 'main_thread_id': mainThreadId, 'user_id': userId })
+    .then(function (results) {
+      res.send('added')
+    })
+})
+
+
 router.use('/signup', require('./signup'));
 router.use('/signin', require('./signin'));
 router.use('/logout', require('./logout'));

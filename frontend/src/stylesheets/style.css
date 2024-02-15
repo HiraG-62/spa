@@ -17,6 +17,10 @@ a {
   color: #222;
 }
 
+strong {
+  font-weight: bold;
+}
+
 ::-webkit-scrollbar {
   width: 8px;
 }
@@ -298,6 +302,7 @@ a {
   width: fit-content;
   min-width: 20%;
   max-width: 70%;
+  margin: 12px;
   box-sizing: border-box;
 }
 

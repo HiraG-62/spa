@@ -3,18 +3,34 @@
         <div id="post_area">
             <div v-for="post of posts" :key="post.id">
                 <div v-if="post.sub_thread_id == threadId">
-                    <li class="post">
-                        <div class="post_data">
-                            <div class="name">
-                                {{ name }}
+                    <div v-if="this.searchWord == ''">
+                        <li class="post">
+                            <div class="post_data">
+                                <div class="name">
+                                    {{ name }}
+                                </div>
+                                <div class="date">
+                                    {{ post.date }}
+                                </div>
                             </div>
-                            <div class="date">
-                                {{ post.date }}
+                            <div v-html="post.contents" class="ql-snow post_content">
                             </div>
-                        </div>
-                        <div v-html="post.contents" class="ql-snow post_content">
-                        </div>
-                    </li>
+                        </li>
+                    </div>
+                    <div v-else-if="post.contents.indexOf(this.searchWord) !== -1">
+                        <li class="post">
+                            <div class="post_data">
+                                <div class="name">
+                                    {{ name }}
+                                </div>
+                                <div class="date">
+                                    {{ post.date }}
+                                </div>
+                            </div>
+                            <div v-html="post.contents" class="ql-snow post_content">
+                            </div>
+                        </li>
+                    </div>
                 </div>
             </div>
 
@@ -35,10 +51,6 @@
                     </div>
                 </div>
             </div>
-            <input type="text" id="main_thread_name" name="main_thread_name" value="<%=mainThread%>" style="display: none;">
-            <input type="text" id="main_thread_id" name="main_thread_id" value="<%=mainThreadId%>" style="display: none;">
-            <input type="text" id="sub_thread_index" name="sub_thread_index" value="<%=subThreadIndex%>"
-                style="display: none;">
         </form>
     </div>
 </template>
@@ -50,10 +62,11 @@ import Methods from '@/api/methods';
 
 export default {
     name: 'body',
-    props: ['threadId'],
+    props: ['threadId', 'searchWord'],
     data() {
         return {
-            name: '名前',
+            name: '佐々木柊',
+            posts: [],
 
             options: {
                 modules: {
@@ -65,12 +78,14 @@ export default {
         };
     },
     async mounted() {
-        let res = await Methods.sendReq('/')
-        this.posts = res.data.posts
-        this.threads = res.data.threads
-        console.log(this.posts)
+        this.loadData()
     },
     methods: {
+        async loadData() {
+          let res = await Methods.sendReq('/')
+          this.posts = res.data.posts
+          this.threads = res.data.threads
+        },
         async clickSubmit() {
             let content = document.querySelectorAll('div.ql-editor > p');
             for (let c of content) {
@@ -79,6 +94,7 @@ export default {
                     let res = await Methods.sendPost('/content', form)
                     if (res.data == 'posted') {
                         this.$refs.myEditor.getQuill().root.innerHTML = ''
+                        this.loadData()
                     }
                     return
                 }
