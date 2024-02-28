@@ -22,12 +22,18 @@ router.get('/', function (req, res, next) {
             knex('main_threads')
               .select('*')
               .then(function (mainThreads) {
-                res.send({
-                  isAuth: isAuth,
-                  mainThreads: mainThreads,
-                  threads: threadData,
-                  posts: postData
-                })
+                knex('users')
+                  .select('*')
+                  .where({ 'id': userId})
+                  .then(function(userData) {
+                    res.send({
+                      isAuth: isAuth,
+                      mainThreads: mainThreads,
+                      threads: threadData,
+                      posts: postData,
+                      users: userData
+                    })
+                  })
               })
           })
       })

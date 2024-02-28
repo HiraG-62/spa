@@ -7,7 +7,7 @@
                         <li class="post">
                             <div class="post_data">
                                 <div class="name">
-                                    {{ name }}
+                                    {{ users[0].name }}
                                 </div>
                                 <div class="date">
                                     {{ post.date }}
@@ -44,6 +44,7 @@
                 <div class="buttons">
                     <div class="toolbar_switch">
                         <img src="@/assets/toolbar.svg" class="toolbar_button button-icon icon">
+                        <!-- <button type="button" @click="toggleEditor()"></button> -->
                     </div>
                     <div class="enter_area">
                         <img src="@/assets/post.svg" alt="送信" class="enter_button button-icon icon">
@@ -72,7 +73,7 @@ export default {
                 modules: {
                     toolbar: toolbarOptions
                 },
-                placeholder: 'Enterで改行しCtrl + Enterで投稿します。',
+                placeholder: 'Enterで改行します。',
                 theme: 'snow'
             }
         };
@@ -85,6 +86,8 @@ export default {
           let res = await Methods.sendReq('/')
           this.posts = res.data.posts
           this.threads = res.data.threads
+          this.users = res.data.users
+          console.log(this.users)
         },
         async clickSubmit() {
             let content = document.querySelectorAll('div.ql-editor > p');
@@ -99,6 +102,9 @@ export default {
                     return
                 }
             }
+        },
+        toggleEditor() {
+            
         }
     },
     components: { QuillEditor }
