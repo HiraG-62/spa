@@ -17,10 +17,14 @@
                 <img src="@/assets/dm.svg" class="icon">
                 <router-link to="/dm/1"></router-link>
             </div>
-            <!-- <div @click="mainSelect(4, $event)" v-bind:class="{ 'active': mainTab == 4 }" id="manage" class="sidebar_icon">
+            <div @click="mainSelect(4, $event)" v-bind:class="{ 'active': mainTab == 4 }" id="manage" class="sidebar_icon">
                 <img src="@/assets/manage.svg" class="icon">
                 <router-link to="/manage"></router-link>
-            </div> -->
+            </div>
+            <div id="logout" class="sidebar_icon">
+                <img src="@/assets/logout.svg" class="icon">
+                <router-link to="/logout"></router-link>
+            </div>
         </div>
         <div class="sub_threads_bar">
             <div class="sub_threads_header">
@@ -91,7 +95,6 @@ export default {
             this.title = res.data.mainThreads[1].name
             this.threads = res.data.threads
             this.$emit('subThread', this.threads[0])
-            console.log(res)
         },
         mainSelect(num, event) {
             let mainThread = res.data.mainThreads[num]
@@ -99,11 +102,11 @@ export default {
             this.mainTab = num
             this.mainPath = mainThread.path
             this.subTab = 0
+            this.$emit('mainThread', this.mainTab+1)
         },
         subSelect(thread, num, event) {
             this.subTab = num
             this.$emit('subThread', thread)
-            console.log(thread)
         },
         showPopup() {
             this.visPop = true

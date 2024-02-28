@@ -3,7 +3,7 @@
         <div class="sign_body">
             <h1>アカウント登録</h1>
             <div class="form_text">
-                <label>氏名</label>
+                <label>ユーザー名</label>
                 <input required type="text" name="name" v-model="name"/>
             </div>
             <div class="form_text">

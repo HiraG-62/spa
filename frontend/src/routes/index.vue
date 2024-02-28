@@ -1,17 +1,19 @@
 <template>
-    <sidebarComponent @subThread="changeSubThread" :data="postData"></sidebarComponent>
+    <sidebarComponent @mainThread="changeMainThread" @subThread="changeSubThread" :data="postData"></sidebarComponent>
     <div class="main_wrapper">
         <headerComponent @searchText="searchWords" :title="subTitle"></headerComponent>
-        <bodyComponent :threadId="subThreadId" :data="postData" :searchWord="word"></bodyComponent>
+        <assignLabs v-if="mainThread==5"></assignLabs>
+        <bodyComponent v-else :threadId="subThreadId" :data="postData" :searchWord="word"></bodyComponent>
     </div>
 </template>
-
+imipo
 <script>
 import Methods from '@/api/methods'
 
 import sidebarComponent from '@/components/sidebar.vue'
 import headerComponent from '@/components/header.vue'
 import bodyComponent from '@/components/body.vue'
+import assignLabs from '@/components/assignlabs.vue'
 
 export default {
     name: 'index',
@@ -27,9 +29,13 @@ export default {
     components: {
         sidebarComponent,
         headerComponent,
-        bodyComponent
+        bodyComponent,
+        assignLabs
     },
     methods: {
+        changeMainThread(val) {
+            this.mainThread = val
+        },
         changeSubThread(val) {
             this.subTitle = val.sub_name
             this.subThreadId = val.sub_id

@@ -145,6 +145,19 @@ strong {
   filter: brightness(0);
 }
 
+#logout {
+  background-color: red;
+  margin-top: auto;
+  margin-bottom: 12px;
+}
+
+#logout:hover {
+  background-color: #a00;
+}
+
+#logout img {
+  filter: brightness(0) invert(1);
+}
 
 .sub_threads_bar {
   width: 190px;

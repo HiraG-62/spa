@@ -65,7 +65,7 @@ export default {
     props: ['threadId', 'searchWord'],
     data() {
         return {
-            name: '佐々木柊',
+            name: '',
             posts: [],
 
             options: {
