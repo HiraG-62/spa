@@ -31,9 +31,18 @@
                 {{ title }}
             </div>
             <div class="sub_threads">
-                <template v-for="(thread, index) of threads" :key="index">
+                <template v-if="mainTab == 0">
+                    <!-- <div v-bind:id="'sub_thread_0'">
+                        <div @click="subSelect(homeThreads[0], 0, $event)" v-bind:class="{ 'active': subTab == 0 }"
+                            class="sub_thread">
+                            {{ homeThreads[0].sub_name }}
+                            <router-link :to="{ name: mainPath, params: { id: 'general' } }"></router-link>
+                        </div>
+                    </div> -->
+                </template>
+                <template v-else v-for="(thread, index) of threads" :key="index">
                     {{ thread.main_id }}
-                    <template v-if="thread.main_thread_id == mainTab+1">
+                    <template v-if="thread.main_thread_id == mainTab + 1">
                         <div v-bind:id="'sub_thread_' + index">
                             <div @click="subSelect(thread, index, $event)" v-bind:class="{ 'active': subTab == index }"
                                 class="sub_thread">
@@ -53,8 +62,8 @@
                 <div class="popup_window">
                     <div style="font-size: 24px;">スレッドを追加</div>
                     <br>
-                    <p style="font-weight: lighter;">メインスレッド：  {{ title }}</p>
-                    <div style="font-weight: lighter;">スレッドタイトル：  <input type="text" v-model="subName"></div>
+                    <p style="font-weight: lighter;">メインスレッド： {{ title }}</p>
+                    <div style="font-weight: lighter;">スレッドタイトル： <input type="text" v-model="subName"></div>
                     <div @click="addSubThread" class="cyanButton">追加</div>
                     <label @click="hidePopup" class="popup_close">
                         <svg width="18" height="18" xmlns="http://www.w3.org/2000/svg">
@@ -83,11 +92,22 @@ export default {
             subTab: 0,
             subThreads: null,
             visPop: false,
-            threads: []
+            threads: [],
         }
     },
     async mounted() {
         this.loadData()
+        this.threads.push({
+            id: 0,
+            lab_id: null,
+            main_thread_id: 1,
+            name: 'ホーム',
+            path: '/',
+            sub_id: 0,
+            sub_name: '全体連絡',
+            user_id: null
+        })
+        console.log(this.threads)
     },
     methods: {
         async loadData() {
@@ -102,7 +122,7 @@ export default {
             this.mainTab = num
             this.mainPath = mainThread.path
             this.subTab = 0
-            this.$emit('mainThread', this.mainTab+1)
+            this.$emit('mainThread', this.mainTab + 1)
         },
         subSelect(thread, num, event) {
             this.subTab = num
@@ -114,13 +134,13 @@ export default {
         hidePopup() {
             this.visPop = false
         },
-         async addSubThread() {
+        async addSubThread() {
             let form = {
                 threadName: this.subName,
-                mainThreadId: this.mainTab+1
+                mainThreadId: this.mainTab + 1
             }
             let res = await Methods.sendPost('/addSubThread', form)
-            if(res.data == 'added') {
+            if (res.data == 'added') {
                 this.loadData()
                 this.visPop = false
                 this.subName = ''
