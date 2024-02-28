@@ -113,12 +113,14 @@ export default {
         },
          async addSubThread() {
             let form = {
-                threadName: this.subName
+                threadName: this.subName,
+                mainThreadId: this.mainTab+1
             }
             let res = await Methods.sendPost('/addSubThread', form)
             if(res.data == 'added') {
                 this.loadData()
                 this.visPop = false
+                this.subName = ''
             }
         }
     }
