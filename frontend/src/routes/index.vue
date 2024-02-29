@@ -1,12 +1,11 @@
 <template>
-    <sidebarComponent @mainThread="changeMainThread" @subThread="changeSubThread" :data="postData"></sidebarComponent>
+    <sidebarComponent @mainThread="changeMainThread" @subThread="changeSubThread" @logout="logout" :data="postData"></sidebarComponent>
     <div class="main_wrapper">
         <headerComponent @searchText="searchWords" :title="subTitle"></headerComponent>
-        <assignLabs v-if="mainThread==5"></assignLabs>
-        <bodyComponent v-else :threadId="subThreadId" :data="postData" :searchWord="word"></bodyComponent>
+        <router-view :threadId="subThreadId" :data="postData" :searchWord="word"></router-view>
     </div>
 </template>
-imipo
+
 <script>
 import Methods from '@/api/methods'
 
@@ -40,17 +39,15 @@ export default {
             this.subTitle = val.sub_name
             this.subThreadId = val.sub_id
         },
+        logout() {
+            this.$emit('logout')
+        },
         searchWords(val) {
             this.word = val
         }
     },
     async mounted() {
-        const res = await Methods.sendReq('/')
-        this.postData = res
-        if (!res.data.isAuth) {
-            this.$router.push('/signin')
-            return
-        }
+
     }
 }
 

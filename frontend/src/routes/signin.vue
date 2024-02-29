@@ -11,7 +11,7 @@
                 <input required type="password" name="password" v-model="password"/>
             </div>
             <input @click="post()" type="button" value="サインイン" class="submit_button redButton"/>
-            <router-link to="/signup">アカウント登録</router-link>
+            <router-link to="/signup" @click="signup">アカウント登録</router-link>
         </div>
     </div>
 </template>
@@ -35,7 +35,11 @@ export default {
             let res = await Methods.sendPost('/signin', form)
             if(res.data == 'success') {
                 this.$router.push('/')
+                this.$emit('signin')
             }
+        },
+        signup() {
+            this.$emit('transSignup')
         }
     }
 }

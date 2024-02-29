@@ -20,7 +20,7 @@
             </div>
 
             <input @click="post()" type="submit" value="サインアップ" class="submit_button redButton" />
-            <router-link to="/signin">サインイン</router-link>
+            <router-link to="/signin" @click="signin">サインイン</router-link>
         </div>
     </div>
 </template>
@@ -48,7 +48,11 @@ export default {
             let res = await Methods.sendPost('/signup', form)
             if(res.data == 'success') {
                 this.$router.push('/')
+                this.$emit('signup')
             }
+        },
+        signin() {
+            this.$emit('transSignin')
         }
     }
 }

@@ -1,47 +1,49 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import index from '@/routes/index'
-import signin from '@/routes/signin'
-import signup from '@/routes/signup'
-import logout from '@/routes/logout'
+import body from '@/components/body'
+import assignLabs from '@/components/assignlabs.vue'
 
 
 const routes = [
     {
-        path: '/signin',
-        component: signin,
-    },
-    {
-        path: '/signup',
-        component: signup,
-    },
-    {
-        path: '/logout',
-        component: logout
-    },
-    {
         path: '/',
         name: 'index',
-        component: index,
+        component: body,
+    },
+    {
+        path: '/general',
+        name: 'general',
+        component: assignLabs,
+    },
+    {
+        path: '/calendar',
+        name: 'calendar',
+        component: body,
     },
     {
         path: '/mypage/:id',
         name: 'mypage',
-        component: index,
+        component: body,
     },
     {
         path: '/lab/:id',
         name: 'lab',
-        component: index,
+        component: body,
     },
     {
         path: '/dm/:id',
         name: 'dm',
-        component: index,
+        component: body,
     },
     {
-        path: '/manage',
-        name: 'manage',
-        component: index,
+        path: '/manage/assignlabs',
+        name: 'assignlabs',
+        component: assignLabs,
+    },
+    {
+        path: '/manage/manageCalendar',
+        name: 'manageCalendar',
+        component: assignLabs,
     },
 ]
 
@@ -49,10 +51,5 @@ const Router = createRouter({
     history: createWebHistory(),
     routes,
 })
-
-// Router.addRoute({ path: '/mypage/:id', component: index })
-// Router.addRoute({ path: '/lab', component: index })
-// Router.addRoute({ path: '/dm', component: index })
-// Router.addRoute({ path: '/manage', component: index })
 
 export default Router

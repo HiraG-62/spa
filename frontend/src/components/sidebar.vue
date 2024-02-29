@@ -3,7 +3,7 @@
         <div class="main_threads_bar">
             <div @click="mainSelect(0, $event)" v-bind:class="{ 'active': mainTab == 0 }" id="home" class="sidebar_icon">
                 <img src="@/assets/home.svg" class="icon">
-                <router-link to="/"></router-link>
+                <router-link to="/general"></router-link>
             </div>
             <div @click="mainSelect(1, $event)" v-bind:class="{ 'active': mainTab == 1 }" id="mypage" class="sidebar_icon">
                 <img src="@/assets/mypage.svg" class="icon">
@@ -19,9 +19,9 @@
             </div>
             <div @click="mainSelect(4, $event)" v-bind:class="{ 'active': mainTab == 4 }" id="manage" class="sidebar_icon">
                 <img src="@/assets/manage.svg" class="icon">
-                <router-link to="/manage"></router-link>
+                <router-link to="/manage/assignlabs"></router-link>
             </div>
-            <div id="logout" class="sidebar_icon">
+            <div @click="logoutClick()" id="logout" class="sidebar_icon">
                 <img src="@/assets/logout.svg" class="icon">
                 <router-link to="/logout"></router-link>
             </div>
@@ -32,13 +32,28 @@
             </div>
             <div class="sub_threads">
                 <template v-if="mainTab == 0">
-                    <!-- <div v-bind:id="'sub_thread_0'">
-                        <div @click="subSelect(homeThreads[0], 0, $event)" v-bind:class="{ 'active': subTab == 0 }"
-                            class="sub_thread">
-                            {{ homeThreads[0].sub_name }}
-                            <router-link :to="{ name: mainPath, params: { id: 'general' } }"></router-link>
+                    <template v-for="(thread, index) of homeThreads" :key="index">
+                        {{ thread.main_id }}
+                        <div v-bind:id="'sub_thread_' + index">
+                            <div @click="subSelect(thread, index, $event)" v-bind:class="{ 'active': subTab == index }"
+                                class="sub_thread">
+                                {{ thread.sub_name }}
+                                <router-link :to="`/${thread.sub_id}`"></router-link>
+                            </div>
                         </div>
-                    </div> -->
+                    </template>
+                </template>
+                <template v-else-if="mainTab == 4">
+                    <template v-for="(thread, index) of manageThreads" :key="index">
+                        {{ thread.main_id }}
+                        <div v-bind:id="'sub_thread_' + index">
+                            <div @click="subSelect(thread, index, $event)" v-bind:class="{ 'active': subTab == index }"
+                                class="sub_thread">
+                                {{ thread.sub_name }}
+                                <router-link :to="`${thread.path}/${thread.sub_id}`"></router-link>
+                            </div>
+                        </div>
+                    </template>
                 </template>
                 <template v-else v-for="(thread, index) of threads" :key="index">
                     {{ thread.main_id }}
@@ -87,26 +102,60 @@ export default {
     data() {
         return {
             title: '',
-            mainTab: 1,
-            mainPath: 'mypage',
+            mainTab: 0,
+            mainPath: 'index',
             subTab: 0,
             subThreads: null,
             visPop: false,
             threads: [],
+            homeThreads: [
+                {
+                    id: 0,
+                    lab_id: null,
+                    main_thread_id: 1,
+                    name: 'ホーム',
+                    path: '/',
+                    sub_id: 'general',
+                    sub_name: '全体連絡',
+                    user_id: null
+                },
+                {
+                    id: 0,
+                    lab_id: null,
+                    main_thread_id: 1,
+                    name: 'ホーム',
+                    path: '/',
+                    sub_id: 'calendar',
+                    sub_name: 'カレンダー',
+                    user_id: null
+                },
+            ],
+            manageThreads: [
+                {
+                    id: 0,
+                    lab_id: null,
+                    main_thread_id: 1,
+                    name: '管理機能',
+                    path: '/manage',
+                    sub_id: 'assignlabs',
+                    sub_name: '研究室管理',
+                    user_id: null
+                },
+                {
+                    id: 0,
+                    lab_id: null,
+                    main_thread_id: 1,
+                    name: '管理機能',
+                    path: '/manage',
+                    sub_id: 'manageCalendar',
+                    sub_name: 'カレンダー管理',
+                    user_id: null
+                },
+            ]
         }
     },
     async mounted() {
         this.loadData()
-        this.threads.push({
-            id: 0,
-            lab_id: null,
-            main_thread_id: 1,
-            name: 'ホーム',
-            path: '/',
-            sub_id: 0,
-            sub_name: '全体連絡',
-            user_id: null
-        })
         console.log(this.threads)
     },
     methods: {
@@ -127,6 +176,7 @@ export default {
         subSelect(thread, num, event) {
             this.subTab = num
             this.$emit('subThread', thread)
+            console.log(this.subTab)
         },
         showPopup() {
             this.visPop = true
@@ -144,6 +194,13 @@ export default {
                 this.loadData()
                 this.visPop = false
                 this.subName = ''
+            }
+        },
+        async logoutClick() {
+            let res = await Methods.sendReq('/logout')
+            if (res.data == 'success') {
+                this.$router.push('/signin')
+                this.$emit('logout')
             }
         }
     }
