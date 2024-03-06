@@ -8,11 +8,12 @@ router.get('/', function (req, res, next) {
   const isAuth = req.isAuthenticated();
 
   if (isAuth) {
-    const userId = req.user.id;
+    const userId = req.user.id
+    const labId = req.user.lab_id
     knex('sub_threads')
       .select(knex.raw('*, sub_threads.id as sub_id'))
       .join('posts')
-      .whereRaw(`sub_threads.id = sub_thread_id and sub_threads.user_id = ${userId}`)
+      .whereRaw(`sub_threads.id = sub_thread_id and (sub_threads.user_id = ${userId} or sub_threads.lab_id = ${labId})`)
       .then(function (postData) {
         knex('sub_threads')
           .select(knex.raw('*, sub_threads.name as sub_name, sub_threads.id as sub_id'))

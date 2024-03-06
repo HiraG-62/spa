@@ -6,7 +6,7 @@
                     <div v-if="this.searchWord == ''">
                         <li class="post">
                             <div class="post_data">
-                                <div class="name">
+                                <div  class="name">
                                     {{ users[0].name }}
                                 </div>
                                 <div class="date">
@@ -87,7 +87,7 @@ export default {
           this.posts = res.data.posts
           this.threads = res.data.threads
           this.users = res.data.users
-          console.log(this.users)
+          console.log(this.posts)
         },
         async clickSubmit() {
             let content = document.querySelectorAll('div.ql-editor > p');

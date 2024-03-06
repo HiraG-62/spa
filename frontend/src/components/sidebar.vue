@@ -3,7 +3,7 @@
         <div class="main_threads_bar">
             <div @click="mainSelect(0, $event)" v-bind:class="{ 'active': mainTab == 0 }" id="home" class="sidebar_icon">
                 <img src="@/assets/home.svg" class="icon">
-                <router-link to="/general"></router-link>
+                <router-link to="/"></router-link>
             </div>
             <div @click="mainSelect(1, $event)" v-bind:class="{ 'active': mainTab == 1 }" id="mypage" class="sidebar_icon">
                 <img src="@/assets/mypage.svg" class="icon">

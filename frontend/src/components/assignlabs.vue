@@ -41,7 +41,7 @@
 						<line x1="0" y1="0" x2="18" y2="18" stroke="white" stroke-width="3"></line>
 						<line x1="0" y1="18" x2="18" y2="0" stroke="white" stroke-width="3"></line>
 					</svg>
-				</label>
+				</label> 
 			</div>
 		</div>
 		<div class="account_list">
