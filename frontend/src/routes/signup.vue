@@ -15,7 +15,7 @@
                 <input required type="password" name="repassword" v-model="repassword"/>
             </div>
 
-            <input @click="post()" type="submit" value="サインアップ" class="submit_button redButton" />
+            <input @click="post()" type="button" value="サインアップ" class="submit_button redButton" />
             <router-link to="/signin">サインイン</router-link>
         </div>
     </div>
@@ -40,6 +40,7 @@ export default {
                 repassword: this.repassword
             }
             let res = await Methods.sendPost('/signup', form)
+            console.log(res.data)
             if(res.data == 'success') {
                 this.$router.push('/')
             }

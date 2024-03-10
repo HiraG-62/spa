@@ -1,6 +1,6 @@
 <template>
     <div class="main_body">
-        <div id="post_area">
+        <div class="post_area">
             <div v-for="post of posts" :key="post.id">
                 <div v-if="post.sub_thread_id == threadId">
                     <li class="post">
@@ -44,8 +44,8 @@
 </template>
 
 <script>
-import { QuillEditor } from '@vueup/vue-quill';
-import Methods from '@/api/methods';
+import { QuillEditor } from '@vueup/vue-quill'
+import Methods from '@/api/methods'
 
 
 export default {
@@ -54,6 +54,7 @@ export default {
     data() {
         return {
             name: '名前',
+            posts: [],
 
             options: {
                 modules: {
@@ -65,20 +66,23 @@ export default {
         };
     },
     async mounted() {
-        let res = await Methods.sendReq('/')
-        this.posts = res.data.posts
-        this.threads = res.data.threads
-        console.log(this.posts)
+        this.loadData()
     },
     methods: {
+        async loadData() {
+            let res = await Methods.sendReq('/')
+            this.posts = res.data.posts
+            this.threads = res.data.threads
+        },
         async clickSubmit() {
-            let content = document.querySelectorAll('div.ql-editor > p');
+            let content = document.querySelectorAll('div.ql-editor > p')
             for (let c of content) {
                 if (c.innerText.match(/\S/g)) {
                     const form = { content: this.$refs.myEditor.getQuill().root.innerHTML, subThreadId: this.threadId }
                     let res = await Methods.sendPost('/content', form)
                     if (res.data == 'posted') {
                         this.$refs.myEditor.getQuill().root.innerHTML = ''
+                        this.loadData()
                     }
                     return
                 }

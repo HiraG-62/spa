@@ -54,9 +54,22 @@ router.post('/content', function (req, res, next) {
     })
 });
 
-router.use('/signup', require('./signup'));
-router.use('/signin', require('./signin'));
-router.use('/logout', require('./logout'));
+router.post('/addThread', function (req, res, next) {
+  const userId = req.user.id
+  const labId = req.user.lab_id
+  const threadTitle = req.body.threadTitle
+  const mainThreadId = req.body.mainThreadId
+
+  knex('sub_threads')
+    .insert( { 'name': threadTitle, 'main_thread_id': mainThreadId, 'user_id': userId, 'lab_id': labId })
+    .then(function () {
+      res.send('added')
+    })
+})
+
+router.use('/signup', require('./signup'))
+router.use('/signin', require('./signin'))
+router.use('/logout', require('./logout'))
 // router.use('/mypage', require('./mypage'));
 // router.use('/lab', require('./lab'));
 // router.use('/manage', require('./manage'));

@@ -1,8 +1,8 @@
-const express = require('express');
-const knex = require('../db/knex');
-const router = express.Router();
-const bcrypt = require('bcrypt');
-const passport = require('passport');
+const express = require('express')
+const knex = require('../db/knex')
+const router = express.Router()
+const bcrypt = require('bcrypt')
+const passport = require('passport')
 
 router.get('/', function (req, res, next) {
     const isAuth = req.isAuthenticated();
@@ -34,7 +34,9 @@ router.post('/', function post(req, res, next) {
                                 knex('sub_threads')
                                     .insert({ name: '自分の投稿', main_thread_id: 2, user_id: user.id })
                                     .then()
-                                return res.redirect('/');
+                                res.send('success')
+
+                                return 
                             });
                         })(req, res, next)
                     })

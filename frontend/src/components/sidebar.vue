@@ -28,13 +28,15 @@
             </div>
             <div class="sub_threads">
                 <template v-for="(thread, index) of threads" :key="index">
-                    <div v-bind:id="'sub_thread_' + index">
-                        <div @click="subSelect(thread, index, $event)" v-bind:class="{ 'active': subTab == index }"
-                            class="sub_thread">
-                            {{ thread.sub_name }}
-                            <router-link :to="{ name: mainPath, params: { id: thread.sub_id } }"></router-link>
+                    <template v-if="thread.main_thread_id == mainTab + 1">
+                        <div v-bind:id="'sub_thread_' + index">
+                            <div @click="subSelect(thread, index, $event)" v-bind:class="{ 'active': subTab == index }"
+                                class="sub_thread">
+                                {{ thread.sub_name }}
+                                <router-link :to="{ name: mainPath, params: { id: thread.sub_id } }"></router-link>
+                            </div>
                         </div>
-                    </div>
+                    </template>
                 </template>
             </div>
             <div @click="showPopup" class="add_thread">
@@ -46,9 +48,9 @@
                 <div class="popup_window">
                     <div style="font-size: 24px;">スレッドを追加</div>
                     <br>
-                    <p style="font-weight: lighter;">メインスレッド：  {{ title }}</p>
-                    <div style="font-weight: lighter;">スレッドタイトル：  <input type="text"></div>
-                    
+                    <p style="font-weight: lighter;">メインスレッド： {{ title }}</p>
+                    <div style="font-weight: lighter;">スレッドタイトル： <input v-model="threadTitle" type="text"></div>
+                    <div @click="addThreads" class="cyanButton" style="margin: 12px 0 0 auto;">追加</div>
                     <label @click="hidePopup" class="popup_close">
                         <svg width="18" height="18" xmlns="http://www.w3.org/2000/svg">
                             <line x1="0" y1="0" x2="18" y2="18" stroke="white" stroke-width="3"></line>
@@ -75,33 +77,47 @@ export default {
             mainPath: 'index',
             subTab: 0,
             subThreads: null,
-            visPop: false
+            visPop: false,
+            threads: []
         }
     },
-    async created() {
-        res = await Methods.sendReq('/')
-        this.title = res.data.mainThreads[0].name
-        this.threads = res.data.threads
-        this.$emit('subThread', this.threads[0])
+    async mounted() {
+        this.loadData()
     },
     methods: {
+        async loadData() {
+            res = await Methods.sendReq('/')
+            this.title = res.data.mainThreads[0].name
+            this.threads = res.data.threads
+            this.$emit('subThread', this.threads[0])
+        },
         mainSelect(num, event) {
             let mainThread = res.data.mainThreads[num]
             this.title = mainThread.name
             this.mainTab = num
             this.mainPath = mainThread.path
-            this.subTab = 0
+            this.subTab = -1
         },
         subSelect(thread, num, event) {
             this.subTab = num
             this.$emit('subThread', thread)
-            console.log(thread)
         },
         showPopup() {
             this.visPop = true
         },
         hidePopup() {
             this.visPop = false
+        },
+        async addThreads() {
+            let form = {
+                threadTitle: this.threadTitle,
+                mainThreadId: this.mainTab + 1
+            }
+            let res = await Methods.sendPost('/addThread', form)
+            if (res.data == 'added') {
+                this.visPop = false
+                this.loadData()
+            }
         }
     }
 }
